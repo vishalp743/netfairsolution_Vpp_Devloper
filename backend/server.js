@@ -79,6 +79,7 @@ app.use('/api/contactUs', require('./routes/contactUs'));
 app.use("/api/saveEmail", require('./routes/saveEmail'));
 app.use('/api/saveComment', require('./routes/saveComment'));
 app.use('/api/getKycSubmission', require('./routes/getKycSubmission'));
+app.use('/api/checkKycVerification', require('./routes/checkKycVerification'));
 
 
 // Route to fetch user emails

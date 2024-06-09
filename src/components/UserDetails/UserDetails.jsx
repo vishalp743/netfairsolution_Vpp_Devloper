@@ -102,7 +102,7 @@ const handleVerify = async () => {
           {/* Display PAN document image if available */}
           {kycDetails.panDocument && (
             <img
-            src={`http://localhost:5000/${kycDetails.panDocument}`}
+            src={`https://netfairsolution-vpp-devloper.onrender.com/${kycDetails.panDocument}`}
             alt="PAN Document"
             style={{ maxWidth: '100%', maxHeight: '200px' }}
           />

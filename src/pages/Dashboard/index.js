@@ -5,15 +5,46 @@ import { useRouter } from 'next/router';
 const Index = () => {
   const [loading, setLoading] = useState(true);
   const [kycSubmission, setKycSubmission] = useState(null);
+  const [kycVerified, setKycVerified] = useState(false); // Added state for KYC verification
   const router = useRouter();
   const { email } = router.query;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/getKycSubmission?email=${email}`);
+        // Reset the states before fetching data
+        setKycSubmission(null);
+        setKycVerified(false);
+        setLoading(true);
+
+        // API call to check KYC verification
+        const response = await fetch(`https://netfairsolution-vpp-devloper.onrender.com/api/checkKycVerification?email=${email}`);
         const data = await response.json();
-        setKycSubmission(data.kycsubmission);
+        console.log('Response data:', data);
+
+        // If KYC verification is true, set kycVerified to true
+        if (data.kycverification === true) { // Explicitly check for true
+          setKycVerified(true);
+        } else {
+          await fetchSubmission();
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching kyc verification:', error);
+        setLoading(false);
+      }
+    };
+
+    const fetchSubmission = async () => {
+      try {
+        const response = await fetch(`https://netfairsolution-vpp-devloper.onrender.com/api/getKycSubmission?email=${email}`);
+        const data = await response.json();
+        console.log('Submission data:', data);
+        if (data.kycsubmission === true) {
+          setKycSubmission(data.kycsubmission);
+        } else {
+          setKycSubmission(false);
+        }
         setLoading(false);
       } catch (error) {
         console.error('Error fetching kycsubmission:', error);
@@ -32,14 +63,22 @@ const Index = () => {
         <div>Loading...</div>
       ) : (
         <div className="lg:ml-64">
-          {kycSubmission === 'true' ? (
-            <div className="bg-yellow-50 text-yellow-800 pl-4 pr-10 py-4 rounded relative" role="alert">
+          {kycVerified ? (
+            <div className="bg-green-50 text-green-800 pl-4 pr-10 py-4 rounded relative" role="alert">
               <div className="mb-3 flex items-center">
-                <strong className="font-bold text-base mr-3">KYC Verification Under Process</strong>
+                <strong className="font-bold text-base mr-3">KYC Verified!</strong>
               </div>
               <span className="block sm:inline text-sm">
-                Your KYC verification is under process. It may take up to 24 hours. 
-                We'll notify you once it's completed.
+                Your KYC verification is complete. You're all set!
+              </span>
+            </div>
+          ) : kycSubmission ? (
+            <div className="bg-yellow-50 text-yellow-800 pl-4 pr-10 py-4 rounded relative" role="alert">
+              <div className="mb-3 flex items-center">
+                <strong className="font-bold text-base mr-3">KYC Under Process!</strong>
+              </div>
+              <span className="block sm:inline text-sm">
+                Your KYC verification is under process. It may take up to 3 business days.
               </span>
             </div>
           ) : (
@@ -47,7 +86,9 @@ const Index = () => {
               <div className="mb-3 flex items-center">
                 <strong className="font-bold text-base mr-3">KYC required!</strong>
               </div>
-              <span className="block sm:inline text-sm">This is a warning message please verify your KYC.</span>
+              <span className="block sm:inline text-sm">
+                This is a warning message, please verify your KYC. It may take up to 3 business days.
+              </span>
               <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 cursor-pointer fill-yellow-500 absolute right-4 top-4"
                 viewBox="0 0 320.591 320.591">
                 <path
