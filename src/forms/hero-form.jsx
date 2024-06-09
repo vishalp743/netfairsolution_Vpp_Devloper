@@ -9,7 +9,7 @@ const HeroForm = () => {
     
     // Send the form data to the backend
     try {
-      const response = await fetch("http://localhost:5000/api/saveEmail", {
+      const response = await fetch("https://netfairsolution-vpp-devloper.onrender.com/api/saveEmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

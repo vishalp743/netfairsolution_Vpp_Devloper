@@ -34,7 +34,7 @@ const RegisterForm = () => {
       // const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
       // const { user } = userCredential;
 
-      const response = await axios.post(' http://localhost:5000/api/auth/register', {
+      const response = await axios.post(' https://netfairsolution-vpp-devloper.onrender.com/api/auth/register', {
         email,
         password,
         fullname,

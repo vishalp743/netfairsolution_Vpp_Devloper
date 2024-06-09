@@ -7,7 +7,7 @@ const CommentPost = () => {
     const formData = new FormData(e.target);
     const { name, email, website, comment } = Object.fromEntries(formData);
     try {
-      await axios.post('http://localhost:5000/api/saveComment', {
+      await axios.post('https://netfairsolution-vpp-devloper.onrender.com/api/saveComment', {
         name,
         email,
         website,

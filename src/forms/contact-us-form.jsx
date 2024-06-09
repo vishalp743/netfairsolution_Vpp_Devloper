@@ -25,7 +25,7 @@ const ContactUsForm = () => {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = await axios.post('http://localhost:5000/api/contactUs/', formData);
+      const response = await axios.post('https://netfairsolution-vpp-devloper.onrender.com/api/contactUs/', formData);
 
       if (response.status === 201) {
         toast.success("Your inquiry has been submitted successfully!");

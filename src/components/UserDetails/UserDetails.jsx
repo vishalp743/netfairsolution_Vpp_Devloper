@@ -16,7 +16,7 @@ const UserDetails = () => {
   useEffect(() => {
     const fetchEmails = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/getUserEmails');
+        const response = await fetch('https://netfairsolution-vpp-devloper.onrender.com/api/getUserEmails');
         const data = await response.json();
         setEmails(data.emails);
       } catch (error) {
@@ -32,7 +32,7 @@ const UserDetails = () => {
       if (selectedEmail) {
         try {
           setLoading(true);
-          const response = await fetch(`http://localhost:5000/api/getKYCDetailsByEmail?email=${selectedEmail}`);
+          const response = await fetch(`https://netfairsolution-vpp-devloper.onrender.com/api/getKYCDetailsByEmail?email=${selectedEmail}`);
           const data = await response.json();
           setKYCDetails(data.kycDetails);
           setLoading(false);
@@ -50,7 +50,7 @@ const UserDetails = () => {
 const handleVerify = async () => {
   try {
     setLoading(true);
-    const response = await fetch('http://localhost:5000/api/verifyKYC', {
+    const response = await fetch('https://netfairsolution-vpp-devloper.onrender.com/api/verifyKYC', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
